@@ -3,7 +3,9 @@ package net.ketone.kafka.scf;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import reactor.core.publisher.Flux;
 
+import java.time.Duration;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -18,11 +20,15 @@ public class ApplicationConfiguration {
     // in the application.yml file) every second.
     static class Source {
 
-        private Random random = new Random();
-
         @Bean
         public Supplier<Integer> send() {
-            return () -> random.nextInt(100);
+            return () -> 1;
+        }
+
+        @Bean
+        public Supplier<Flux<Integer>> sendFlux() {
+            return () -> Flux.interval(Duration.ofSeconds(5))
+                    .map(Long::intValue);
         }
     }
 

@@ -2,14 +2,16 @@ spring:
   cloud:
     stream:
       function:
-        definition: accumulate;receive;send
+        definition: send;sendFlux;accumulate;receive
       bindings:
         send-out-0:
           destination: ints
-        receive-in-0:
-          destination: total
+        sendFlux-out-0:
+          destination: ints
         accumulate-in-0:
           destination: ints
         accumulate-out-0:
+          destination: total
+        receive-in-0:
           destination: total
 
